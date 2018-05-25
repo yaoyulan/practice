@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!-- 自动映射 -->
+    <settings>
+        <setting name="autoMappingBehavior" value="FULL"/>
+    </settings>
+
+    <!-- 别名 -->
+    <typeAliases>
+        <package name="cn.pojo"/>
+    </typeAliases>
+
+    <plugins>
+        <!-- com.github.pagehelper为PageHelper类所在包名 -->
+        <plugin interceptor="com.github.pagehelper.PageHelper">
+            <!-- 方言 -->
+            <property name="dialect" value="mysql"/>
+            <!-- 该参数默认为false -->
+            <!-- 设置为true时，使用RowBounds分页会进行count查询 -->
+            <property name="rowBoundsWithCount" value="true"/>
+        </plugin>
+    </plugins>
+
+
+
+ <!--   &lt;!&ndash;分页插件&ndash;&gt;
+    <plugins>
+        <plugin interceptor="com.github.pagehelper.PageInterceptor">
+            &lt;!&ndash; config params as the following &ndash;&gt;
+            <property name="param1" value="value1"/>
+        </plugin>
+    </plugins>-->
+
+</configuration>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.mapper.StudentMapper" >
+
+    <!--根据条件进行查询-->
+    <select id="getStus" resultType="cn.pojo.Student"  parameterType="cn.pojo.Student">
+        SELECT student.stuid AS stuId , stuName, stuSex , stuBirthday ,gradeName ,stuPic
+        FROM student  INNER JOIN grade  ON grade.gradeId  = student.stuGradeId
+
+        <where>
+            <if test="stuName != null and  stuName != ''" >
+                and stuName like concat ('%',#{stuName},'%')
+            </if>
+
+            <if test="stuGradeId != null and stuGradeId != 0">
+              and stuGradeId = #{stuGradeId}
+            </if>
+        </where>
+        ORDER BY stuId DESC
+
+    </select>
+
+    <!--根据ID进行删除-->
+    <delete id="delStuById" parameterType="int">
+         DELETE FROM student WHERE stuId = #{stuId}
+    </delete>
+    
+    <!--添加-->
+    <insert id="addStu" parameterType="cn.pojo.Student">
+
+        INSERT INTO zmdb.student
+            (
+            stuName,
+            stuSex,
+            stuBirthday,
+            stuGradeId,
+            stuPic
+            )
+            VALUES
+            (
+            #{stuName},
+            #{stuSex},
+            #{stuBirthday},
+            #{stuGradeId},
+            #{stuPic}
+            )
+    </insert>
+
+    <!--根据ID进行查询-->
+    <select id="getStuByStuId" parameterType="int" resultType="cn.pojo.Student">
+        SELECT stuId, stuName, stuSex , stuBirthday, stuGradeId , stuPic FROM student  WHERE stuId = #{stuId}
+    </select>
+
+    <!--根据ID修改学员信息-->
+    <update id="updateStu"  parameterType="cn.pojo.Student">
+          update student
+          <set>
+              <if test="stuName != null and stuName != ''">
+                   stuName = #{stuName} ,
+              </if>
+              <if test="stuSex != null and stuSex != ''">
+                  stuSex = #{stuSex} ,
+              </if>
+              <if test="stuBirthday != null and stuBirthday != ''">
+                  stuBirthday = #{stuBirthday} ,
+              </if>
+              <if test="stuGradeId != null and stuGradeId != ''">
+                  stuGradeId = #{stuGradeId} ,
+              </if>
+              <if test="stuPic != null and stuPic != ''">
+                  stuPic = #{stuPic}
+              </if>
+          </set>
+        where stuId = #{stuId}
+    </update>
+
+</mapper>
